@@ -7,7 +7,6 @@
 
 ### Unit Test Instructions (from the top level project directory, requires mvn)
     mvn test
-> 
 
 # Paging Mission Control
 
