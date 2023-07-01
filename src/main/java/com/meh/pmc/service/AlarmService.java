@@ -1,5 +1,6 @@
 package com.meh.pmc.service;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meh.pmc.domain.Alarm;
 import com.meh.pmc.domain.TelemetryData;
@@ -23,14 +24,13 @@ public class AlarmService {
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    public void printAlarms(String inputFile) {
+    public List<Alarm> printAlarms(String inputFile) {
         List<TelemetryData> telemetryDataList = fileService.loadTelemetryData(inputFile);
 
         Map<String, List<TelemetryData>> tdAlarmMap = getAlarmsMap(telemetryDataList);
         log.debug("alarmsMap: " + tdAlarmMap);
 
-        List<Alarm> alarms = getAlarms(tdAlarmMap);
-        log.debug("alarms: " + objectMapper.writeValueAsString(alarms));
+        return getAlarmsFromTelemetryData(tdAlarmMap);
     }
 
     private Map<String, List<TelemetryData>> getAlarmsMap(List<TelemetryData> telemetryDataList) {
@@ -54,7 +54,7 @@ public class AlarmService {
         return tdAlarmMap;
     }
 
-    private List<Alarm> getAlarms(Map<String, List<TelemetryData>> tdAlarmMap) {
+    private List<Alarm> getAlarmsFromTelemetryData(Map<String, List<TelemetryData>> tdAlarmMap) {
         List<Alarm> alarms = new ArrayList<>();
 
         for (String key : tdAlarmMap.keySet()) {
