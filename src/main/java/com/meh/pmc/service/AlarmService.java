@@ -24,7 +24,7 @@ public class AlarmService {
     private final ObjectMapper objectMapper;
 
     @SneakyThrows
-    public List<Alarm> printAlarms(String inputFile) {
+    public List<Alarm> getAlarms(String inputFile) {
         List<TelemetryData> telemetryDataList = fileService.loadTelemetryData(inputFile);
 
         Map<String, List<TelemetryData>> tdAlarmMap = getAlarmsMap(telemetryDataList);

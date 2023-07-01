@@ -29,7 +29,7 @@ public class PmcApplication implements CommandLineRunner {
             log.error("Error, no file name passed in.");
             System.exit(0);
         }
-        List<Alarm> alarms = alarmService.printAlarms(args[0]);
+        List<Alarm> alarms = alarmService.getAlarms(args[0]);
         log.info("alarms: \n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(alarms));
     }
 }
