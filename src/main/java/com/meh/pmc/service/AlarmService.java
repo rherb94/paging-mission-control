@@ -1,7 +1,6 @@
 package com.meh.pmc.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meh.pmc.domain.Alarm;
 import com.meh.pmc.domain.TelemetryData;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ import java.util.Map;
 @Slf4j
 public class AlarmService {
     private final FileService fileService;
-    private final ObjectMapper objectMapper;
 
     @SneakyThrows
     public List<Alarm> getAlarms(String inputFile) {
