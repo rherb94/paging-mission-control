@@ -18,10 +18,10 @@ public class TelemetryData {
     private String component;
 
     public String getAlarm() {
-        if (rawValue < redLow) {
+        if (rawValue < redLow && component.equals("BATT")) {
             return "RED LOW";
         }
-        else if (rawValue > redHigh) {
+        else if (rawValue > redHigh && component.equals("TSTAT")) {
             return "RED HIGH";
         }
         return null;

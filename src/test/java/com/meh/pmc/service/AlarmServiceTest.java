@@ -45,6 +45,7 @@ class AlarmServiceTest {
         List<Alarm> alarms = alarmService.getAlarms("testData.txt");
         assertEquals(1, alarms.size());
         assertEquals("RED HIGH", alarms.get(0).getSeverity());
+        assertEquals("TSTAT", alarms.get(0).getComponent());
         verify(fileService, times(1)).loadTelemetryData(anyString());
     }
 
@@ -56,6 +57,7 @@ class AlarmServiceTest {
         List<Alarm> alarms = alarmService.getAlarms("testData.txt");
         assertEquals(1, alarms.size());
         assertEquals("RED LOW", alarms.get(0).getSeverity());
+        assertEquals("BATT", alarms.get(0).getComponent());
         verify(fileService, times(1)).loadTelemetryData(anyString());
     }
 
@@ -87,18 +89,30 @@ class AlarmServiceTest {
         tdList.add(td1);
         tdList.add(td2);
         tdList.add(td3);
+        TelemetryData td4 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(109.9).component("BATT").build();
+        TelemetryData td5 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(109.9).component("BATT").build();
+        TelemetryData td6 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(109.9).component("BATT").build();
+        tdList.add(td4);
+        tdList.add(td5);
+        tdList.add(td6);
 
         return tdList;
     }
 
     private List<TelemetryData> buildRedLowAlarmData() {
         List<TelemetryData> tdList = new ArrayList<>();
-        TelemetryData td1 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
-        TelemetryData td2 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
-        TelemetryData td3 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        TelemetryData td1 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("BATT").build();
+        TelemetryData td2 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("BATT").build();
+        TelemetryData td3 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("BATT").build();
         tdList.add(td1);
         tdList.add(td2);
         tdList.add(td3);
+        TelemetryData td4 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        TelemetryData td5 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        TelemetryData td6 = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        tdList.add(td4);
+        tdList.add(td5);
+        tdList.add(td6);
 
         return tdList;
     }
