@@ -4,6 +4,9 @@
 
 ### Run Instructions (from the top level project directory)
     java -jar target/paging-mission-control-0.0.1-SNAPSHOT.jar testData.txt
+    or
+    mvn spring-boot:run -Dspring-boot.run.arguments=testData2.txt
+
 
 ### Unit Test Instructions (from the top level project directory, requires mvn)
     mvn test
