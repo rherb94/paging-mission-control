@@ -2,7 +2,6 @@ package com.meh.pmc.service;
 
 import com.meh.pmc.domain.Alarm;
 import com.meh.pmc.domain.TelemetryData;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +17,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@Slf4j
 class AlarmServiceTest {
 
     @Mock
