@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,18 @@ class AlarmServiceTest {
         verify(fileService, times(1)).loadTelemetryData(anyString());
     }
 
+    @Test
+    void shouldRespectFiveMinuteWindowForAlarmCreation() {
+        // generate a list of 3 TelemetryData data where the 3 item timestamp is not in the 5 minute window
+        // so no alarms should be generated
+        List<TelemetryData> tdList = buildFiveMinuteWindowData();
+        when(fileService.loadTelemetryData(anyString())).thenReturn(tdList);
+
+        List<Alarm> alarms = alarmService.getAlarms("testData.txt");
+        assertEquals(0, alarms.size());
+        verify(fileService, times(1)).loadTelemetryData(anyString());
+    }
+
     private List<TelemetryData> buildNoAlarmData() {
         List<TelemetryData> tdList = new ArrayList<>();
         TelemetryData td = TelemetryData.builder().timeStamp(Instant.now()).satelliteId("1001").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(99.9).component("TSTAT").build();
@@ -90,4 +103,19 @@ class AlarmServiceTest {
         return tdList;
     }
 
+    private List<TelemetryData> buildFiveMinuteWindowData() {
+        List<TelemetryData> tdList = new ArrayList<>();
+        Instant theTime = Instant.now();
+
+        TelemetryData td1 = TelemetryData.builder().timeStamp(theTime).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        TelemetryData td2 = TelemetryData.builder().timeStamp(theTime).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        tdList.add(td1);
+        tdList.add(td2);
+
+        theTime = theTime.plus(7, ChronoUnit.MINUTES);
+        TelemetryData td3 = TelemetryData.builder().timeStamp(theTime).satelliteId("1000").redHigh(101D).yellowHigh(98D).yellowLow(25D).redLow(20D).rawValue(19.9).component("TSTAT").build();
+        tdList.add(td3);
+
+        return tdList;
+    }
 }
