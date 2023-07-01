@@ -1,6 +1,6 @@
 # Developer (Michael Herb) assumptions
  - The input file is of limited length. Obviously we are loading it into memory in its entirety.  We could chunk process it but that was not attempted here.
- - although its not specifically spell out, the input timestamp is assumeed to be of the Java SimpleDateFormat pattern of "yyyyMMdd HH:mm:ss.SSS"
+ - although its not specifically spelled out, the input timestamp is assumeed to be of the Java SimpleDateFormat pattern of "yyyyMMdd HH:mm:ss.SSS"...it could be yearMonthDay or yearDayMonth...the example dataset gives no clues.
 > 
 
 # Paging Mission Control
