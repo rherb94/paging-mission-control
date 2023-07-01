@@ -27,7 +27,7 @@ class AlarmServiceTest {
     private AlarmService alarmService;
 
     @Test
-    void shouldHaveNoAlarms() {
+    void shouldHaveNoAlarms() throws Exception {
         List<TelemetryData> tdList = buildNoAlarmData();
         when(fileService.loadTelemetryData(anyString())).thenReturn(tdList);
 
@@ -38,7 +38,7 @@ class AlarmServiceTest {
     }
 
     @Test
-    void shouldHaveOneRedHighAlarm() {
+    void shouldHaveOneRedHighAlarm() throws Exception {
         List<TelemetryData> tdList = buildRedHighAlarmData();
         when(fileService.loadTelemetryData(anyString())).thenReturn(tdList);
 
@@ -49,7 +49,7 @@ class AlarmServiceTest {
     }
 
     @Test
-    void shouldHaveOneRedLowAlarm() {
+    void shouldHaveOneRedLowAlarm() throws Exception {
         List<TelemetryData> tdList = buildRedLowAlarmData();
         when(fileService.loadTelemetryData(anyString())).thenReturn(tdList);
 
@@ -60,7 +60,7 @@ class AlarmServiceTest {
     }
 
     @Test
-    void shouldRespectFiveMinuteWindowForAlarmCreation() {
+    void shouldRespectFiveMinuteWindowForAlarmCreation() throws Exception {
         // generate a list of 3 TelemetryData data where the 3 item timestamp is not in the 5 minute window
         // so no alarms should be generated
         List<TelemetryData> tdList = buildFiveMinuteWindowData();

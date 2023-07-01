@@ -4,7 +4,9 @@ import com.meh.pmc.domain.TelemetryData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -18,13 +20,18 @@ public class FileService {
     private final String timePattern = "yyyyMMdd HH:mm:ss.SSS";
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
 
-    public List<TelemetryData> loadTelemetryData(String inputFile) {
+    public List<TelemetryData> loadTelemetryData(String inputFile) throws FileNotFoundException {
         List<TelemetryData> telemetryDataList = new ArrayList<>();
 
         log.debug("loading data file: " + inputFile);
 
+        Path path = Paths.get(inputFile);
+        if (! Files.exists(path)) {
+            throw new FileNotFoundException(inputFile + " not found");
+        }
+
         try {
-            List<String> allLines = Files.readAllLines(Paths.get(inputFile));
+            List<String> allLines = Files.readAllLines(path);
             int lineNumber = 0;
             for (String line : allLines) {
                 lineNumber++;
@@ -49,7 +56,7 @@ public class FileService {
                 telemetryDataList.add(td);
             }
         } catch (Exception e) {
-            log.error("Exception occurred, error: " + e.getMessage());
+            log.error("Exception occurred while reading data file, error: " + e.getMessage());
         }
 
         // sort the array by timestamp ascending just in case
