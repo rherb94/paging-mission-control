@@ -1,7 +1,6 @@
 package com.meh.pmc.service;
 
 import com.meh.pmc.domain.TelemetryData;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,7 @@ import java.util.List;
 @Slf4j
 public class FileService {
     private final String timePattern = "yyyyMMdd HH:mm:ss.SSS";
-    private DateTimeFormatter dateTimeFormatter;
-    @PostConstruct
-    private void init() {
-        dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
-    }
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
 
     public List<TelemetryData> loadTelemetryData(String inputFile) {
         List<TelemetryData> telemetryDataList = new ArrayList<>();
