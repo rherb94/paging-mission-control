@@ -17,6 +17,7 @@ public class TelemetryData {
     private Double rawValue;
     private String component;
 
+    // we are only interested in RED HIGH on TSTAT and RED LOW on BATT
     public String getAlarm() {
         if (rawValue < redLow && component.equals("BATT")) {
             return "RED LOW";

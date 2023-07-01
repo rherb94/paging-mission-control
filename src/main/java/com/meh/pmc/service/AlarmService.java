@@ -38,9 +38,7 @@ public class AlarmService {
         for (TelemetryData td : telemetryDataList) {
             String satelliteId = td.getSatelliteId();
             String alarmText = td.getAlarm();
-            String component = td.getComponent();
 
-            // we are only interested in RED HIGH on TSTAT and RED LOW on BATT
             if (alarmText != null) {
                 String key = satelliteId + "-" + alarmText;
                 if (tdAlarmMap.containsKey(key)) {
