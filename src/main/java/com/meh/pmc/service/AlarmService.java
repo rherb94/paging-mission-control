@@ -70,7 +70,7 @@ public class AlarmService {
                     if (duration <= 5) {
                         tdsForAlarmForThisSatellite.add(td);
                         if (tdsForAlarmForThisSatellite.size() == 3) {
-                            alarms.add(getAlarm(tdsForAlarmForThisSatellite.get(0)));
+                            alarms.add(createAlarm(tdsForAlarmForThisSatellite.get(0)));
                             tdsForAlarmForThisSatellite.clear();
                             startInstant = td.getTimeStamp().plus(Duration.ofMinutes(5));
                         }
@@ -85,7 +85,7 @@ public class AlarmService {
         return alarms;
     }
 
-    private Alarm getAlarm(TelemetryData td) {
+    private Alarm createAlarm(TelemetryData td) {
         return Alarm.builder()
                 .satelliteId(td.getSatelliteId())
                 .severity(td.getAlarm())
