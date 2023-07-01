@@ -39,7 +39,7 @@ public class AlarmService {
             String satelliteId = td.getSatelliteId();
             String alarmText = td.getAlarm();
             if (alarmText != null) {
-                String key = satelliteId + "-" + alarmText;
+                String key = satelliteId + "-" + alarmText + "-" + td.getComponent();
                 if (tdAlarmMap.containsKey(key)) {
                     tdAlarmMap.get(key).add(td);
                 } else {
