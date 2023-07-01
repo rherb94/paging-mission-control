@@ -76,6 +76,8 @@ public class AlarmService {
                         }
                     } else {
                         startInstant = td.getTimeStamp();
+                        tdsForAlarmForThisSatellite.clear();
+                        tdsForAlarmForThisSatellite.add(td);
                     }
                 }
             }
