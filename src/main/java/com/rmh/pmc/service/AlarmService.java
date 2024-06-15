@@ -1,12 +1,4 @@
-package com.meh.pmc.service;
-
-
-import com.meh.pmc.domain.Alarm;
-import com.meh.pmc.domain.TelemetryData;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+package com.rmh.pmc.service;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -15,6 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
+import com.rmh.pmc.domain.Alarm;
+import com.rmh.pmc.domain.TelemetryData;
+
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -22,35 +23,25 @@ public class AlarmService {
     private final FileService fileService;
 
     @SneakyThrows
-    public List<Alarm> getAlarms(String inputFile) {
-        List<TelemetryData> telemetryDataList = fileService.loadTelemetryData(inputFile);
-
-        Map<String, List<TelemetryData>> tdAlarmMap = getAlarmsMap(telemetryDataList);
-        log.debug("alarmsMap: " + tdAlarmMap);
-
-        return getAlarmsFromTelemetryData(tdAlarmMap);
+    public Map<String, List<TelemetryData>> getAlarms(String inputFile) {
+        Map<String, List<TelemetryData>> alarmMap = fileService.loadTelemetryData(inputFile);
+        return alarmMap;
     }
 
+    // Return a Map with the satellite id as the key and a list of telem data as the
+    // value
     private Map<String, List<TelemetryData>> getAlarmsMap(List<TelemetryData> telemetryDataList) {
-        Map<String, List<TelemetryData>> tdAlarmMap = new HashMap<>();
-
-        // filter the data so that we have a map with the satellite id and alarm type as the key and a list of those alarms
+        Map<String, List<TelemetryData>> alarmMap = new HashMap<>();
         for (TelemetryData td : telemetryDataList) {
-            String satelliteId = td.getSatelliteId();
-            String alarmText = td.getAlarm();
+            if (alarmMap.containsKey(td.getSatelliteId())) {
+                alarmMap.get(td.getSatelliteId()).add(td);
+            } else {
+                alarmMap.put(td.getSatelliteId(), new ArrayList<>());
+                alarmMap.get(td.getSatelliteId()).add(td);
 
-            if (alarmText != null) {
-                String key = satelliteId + "-" + alarmText;
-                if (tdAlarmMap.containsKey(key)) {
-                    tdAlarmMap.get(key).add(td);
-                } else {
-                    List<TelemetryData> dataList = new ArrayList<>();
-                    dataList.add(td);
-                    tdAlarmMap.put(key, dataList);
-                }
             }
         }
-        return tdAlarmMap;
+        return alarmMap;
     }
 
     private List<Alarm> getAlarmsFromTelemetryData(Map<String, List<TelemetryData>> tdAlarmMap) {

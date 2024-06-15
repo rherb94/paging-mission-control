@@ -1,16 +1,18 @@
-# Developer (Michael Herb) assumptions
- - The input file is of limited length. Obviously we are loading it into memory in its entirety.  We could chunk process it but that was not attempted here.
- - the input timestamp is assumed to be of the Java SimpleDateFormat pattern of "yyyyMMdd HH:mm:ss.SSS".
+# Developer (Ryan Herb) assumptions
+
+- The input file is of limited length. Obviously we are loading it into memory in its entirety. We could chunk process it but that was not attempted here.
+- the input timestamp is assumed to be of the Java SimpleDateFormat pattern of "yyyyMMdd HH:mm:ss.SSS".
 
 ### Run Instructions (from the top level project directory)
+
     Java version 17 is required
-    mvn clean install 
+    mvn clean install
     java -jar target/paging-mission-control-0.0.1-SNAPSHOT.jar testData.txt
     or
     mvn spring-boot:run -Dspring-boot.run.arguments=testData2.txt
 
-
 ### Unit Test Instructions (from the top level project directory, requires mvn)
+
     mvn test
 
 # Paging Mission Control
@@ -18,12 +20,14 @@
 > You are tasked with assisting satellite ground operations for an earth science mission that monitors magnetic field variations at the Earth's poles. A pair of satellites fly in tandem orbit such that at least one will have line of sight with a pole to take accurate readings. The satellite’s science instruments are sensitive to changes in temperature and must be monitored closely. Onboard thermostats take several temperature readings every minute to ensure that the precision magnetometers do not overheat. Battery systems voltage levels are also monitored to ensure that power is available to cooling coils. Design a monitoring and alert application that processes status telemetry from the satellites and generates alert messages in cases of certain limit violation scenarios.
 
 ## Requirements
+
 Ingest status telemetry data and create alert messages for the following violation conditions:
 
 - If for the same satellite there are three battery voltage readings that are under the red low limit within a five minute interval.
 - If for the same satellite there are three thermostat readings that exceed the red high limit within a five minute interval.
 
 ### Input Format
+
 The program is to accept a file as input. The file is an ASCII text file containing pipe delimited records.
 
 The ingest of status telemetry data has the format:
@@ -35,7 +39,8 @@ The ingest of status telemetry data has the format:
 You may assume that the input files are correctly formatted. Error handling for invalid input files may be ommitted.
 
 ### Output Format
-The output will specify alert messages.  The alert messages should be valid JSON with the following properties:
+
+The output will specify alert messages. The alert messages should be valid JSON with the following properties:
 
 ```javascript
 {
@@ -46,9 +51,10 @@ The output will specify alert messages.  The alert messages should be valid JSON
 }
 ```
 
-The program will output to screen or console (and not to a file). 
+The program will output to screen or console (and not to a file).
 
 ## Sample Data
+
 The following may be used as sample input and output datasets.
 
 ### Input
@@ -74,17 +80,17 @@ The following may be used as sample input and output datasets.
 
 ```javascript
 [
-    {
-        "satelliteId": 1000,
-        "severity": "RED HIGH",
-        "component": "TSTAT",
-        "timestamp": "2018-01-01T23:01:38.001Z"
-    },
-    {
-        "satelliteId": 1000,
-        "severity": "RED LOW",
-        "component": "BATT",
-        "timestamp": "2018-01-01T23:01:09.521Z"
-    }
-]
+  {
+    satelliteId: 1000,
+    severity: "RED HIGH",
+    component: "TSTAT",
+    timestamp: "2018-01-01T23:01:38.001Z",
+  },
+  {
+    satelliteId: 1000,
+    severity: "RED LOW",
+    component: "BATT",
+    timestamp: "2018-01-01T23:01:09.521Z",
+  },
+];
 ```

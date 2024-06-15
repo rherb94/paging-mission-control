@@ -1,16 +1,18 @@
-package com.meh.pmc;
+package com.rmh.pmc;
 
+import java.util.List;
+import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.meh.pmc.domain.Alarm;
-import com.meh.pmc.service.AlarmService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rmh.pmc.domain.TelemetryData;
+import com.rmh.pmc.service.AlarmService;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
@@ -29,7 +31,8 @@ public class PmcApplication implements CommandLineRunner {
             log.error("Error, no file name passed in.");
             System.exit(0);
         }
-        List<Alarm> alarms = alarmService.getAlarms(args[0]);
-        log.info("alarms: \n" + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(alarms));
+        Map<String, List<TelemetryData>> alarmMap = alarmService.getAlarms(args[0]);
+        // log.info("alarms: \n" +
+        // objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(alarms));
     }
 }
