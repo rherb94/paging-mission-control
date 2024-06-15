@@ -3,7 +3,6 @@ package com.rmh.pmc.service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,26 +22,30 @@ public class AlarmService {
     private final FileService fileService;
 
     @SneakyThrows
-    public Map<String, List<TelemetryData>> getAlarms(String inputFile) {
-        Map<String, List<TelemetryData>> alarmMap = fileService.loadTelemetryData(inputFile);
-        return alarmMap;
+    public List<Alarm> getAlarms(String inputFile) {
+        List<Alarm> alarms = new ArrayList<>();
+        alarms = getAlarmsFromTelemetryData(fileService.loadTelemetryData(inputFile));
+        // Map<String, List<TelemetryData>> alarmMap =
+        // fileService.loadTelemetryData(inputFile);
+        return alarms;
     }
 
     // Return a Map with the satellite id as the key and a list of telem data as the
     // value
-    private Map<String, List<TelemetryData>> getAlarmsMap(List<TelemetryData> telemetryDataList) {
-        Map<String, List<TelemetryData>> alarmMap = new HashMap<>();
-        for (TelemetryData td : telemetryDataList) {
-            if (alarmMap.containsKey(td.getSatelliteId())) {
-                alarmMap.get(td.getSatelliteId()).add(td);
-            } else {
-                alarmMap.put(td.getSatelliteId(), new ArrayList<>());
-                alarmMap.get(td.getSatelliteId()).add(td);
+    // private Map<String, List<TelemetryData>> getAlarmsMap(List<TelemetryData>
+    // telemetryDataList) {
+    // Map<String, List<TelemetryData>> alarmMap = new HashMap<>();
+    // for (TelemetryData td : telemetryDataList) {
+    // if (alarmMap.containsKey(td.getSatelliteId())) {
+    // alarmMap.get(td.getSatelliteId()).add(td);
+    // } else {
+    // alarmMap.put(td.getSatelliteId(), new ArrayList<>());
+    // alarmMap.get(td.getSatelliteId()).add(td);
 
-            }
-        }
-        return alarmMap;
-    }
+    // }
+    // }
+    // return alarmMap;
+    // }
 
     private List<Alarm> getAlarmsFromTelemetryData(Map<String, List<TelemetryData>> tdAlarmMap) {
         List<Alarm> alarms = new ArrayList<>();

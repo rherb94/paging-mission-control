@@ -28,9 +28,7 @@ public class FileService {
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(timePattern);
 
     public Map<String, List<TelemetryData>> loadTelemetryData(String inputFile) throws Exception {
-        // List<TelemetryData> telemetryDataList = new ArrayList<>();
         Map<String, List<TelemetryData>> alarmMap = new HashMap<>();
-
         log.debug("loading data file: " + inputFile);
 
         Path path = Paths.get(inputFile);
@@ -81,11 +79,8 @@ public class FileService {
         // log.debug("after sort: " + telemetryDataList);
 
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        ;
         String jacksonData = objectMapper.writeValueAsString(alarmMap);
-
         log.info("td map is: " + jacksonData);
-
         return alarmMap;
     }
 }
